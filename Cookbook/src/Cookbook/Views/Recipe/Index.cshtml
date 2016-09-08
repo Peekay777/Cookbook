@@ -10,11 +10,19 @@
         <h2>Cookbook</h2>
         <div>
             <ul class="nav">
-                @foreach (var item in Model)
-                {
-                    <li>
-                        <a asp-controller="recipe" asp-action="detail" asp-route-id="@item.Id">@item.Name</a>
-                    </li>
+                @{
+                    if (Model.Count() == 0)
+                    {
+                        <li class="center-block">No recipes added yet</li>
+                        <li><a asp-controller="recipe" asp-action="create">Add a recipe</a></li>
+                    }
+                    else
+                    {
+                        foreach (var item in Model)
+                        {
+                            <li><a asp-controller="recipe" asp-action="detail" asp-route-id="@item.Id">@item.Name</a></li>
+                        }
+                    }
                 }
             </ul>
 

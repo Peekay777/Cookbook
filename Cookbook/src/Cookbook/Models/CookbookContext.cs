@@ -1,12 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Cookbook.Models
 {
     public class CookbookContext : DbContext
     {
-        public CookbookContext(DbContextOptions options)
+        private IConfigurationRoot _config;
+
+        public CookbookContext(DbContextOptions options, IConfigurationRoot config)
             :base(options)
         {
+            _config = config;
         }
 
         public DbSet<Recipe> Recipes { get; set; }
@@ -17,7 +21,7 @@ namespace Cookbook.Models
         {
             base.OnConfiguring(optionsBuilder);
 
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDb;Database=Cookbook;Trusted_Connection=true;MultipleActiveResultSets=true;");
+            optionsBuilder.UseSqlServer(_config["ConnectionStrings:CookbookContextConnection"]);
         }
     }
 }
