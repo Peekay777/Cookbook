@@ -9,23 +9,22 @@
     <div class="col-sm-6 col-sm-offset-3">
         <h2>Cookbook</h2>
         <div>
-            <ul class="nav">
-                @{
-                    if (Model.Count() == 0)
-                    {
-                        <li class="center-block">No recipes added yet</li>
-                        <li><a asp-controller="recipe" asp-action="create">Add a recipe</a></li>
-                    }
-                    else
-                    {
-                        foreach (var item in Model)
+            <div><a asp-controller="recipe" asp-action="create" class="btn btn-block btn-success">Add a recipe</a></div>
+            @{
+                if (Model.Count() == 0)
+                {
+                    <div class="text-center">Waiting for recipes to be added</div>
+                }
+                else
+                {
+                    <ul class="nav">
+                        @foreach (var item in Model)
                         {
                             <li><a asp-controller="recipe" asp-action="detail" asp-route-id="@item.Id">@item.Name</a></li>
                         }
-                    }
+                    </ul>
                 }
-            </ul>
-
+            }
         </div>
     </div>
 </div>
