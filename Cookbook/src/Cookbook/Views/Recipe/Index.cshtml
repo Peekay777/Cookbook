@@ -1,7 +1,23 @@
-﻿@{ 
+﻿@model IEnumerable<Cookbook.Models.Recipe>
+@using System
+@{
     ViewBag.SiteName = "Cookbook";
-    ViewBag.Title = "Recipe";
+    ViewBag.Title = "Recipes";
 }
 
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <h2>Cookbook</h2>
+        <div>
+            <ul class="nav">
+                @foreach (var item in Model)
+                {
+                    <li>
+                        <a asp-controller="recipe" asp-action="detail" asp-route-id="@item.Id">@item.Name</a>
+                    </li>
+                }
+            </ul>
 
-    <h1>Recipe</h1>
+        </div>
+    </div>
+</div>

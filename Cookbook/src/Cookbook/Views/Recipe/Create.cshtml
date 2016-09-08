@@ -1,0 +1,43 @@
+﻿@model Cookbook.ViewModels.RecipeViewModel
+@{
+    ViewBag.SiteName = "Cookbook";
+    ViewBag.Title = "Recipes";
+}
+
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <h2>Create Recipe</h2>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-muted"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Serves"></label>
+                <input asp-for="Serves" class="form-control" />
+                <span asp-validation-for="Serves" class="text-muted"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ingredients"></label>
+                <textarea asp-for="Ingredients" cols="40" rows="4" class="form-control vresize" ></textarea>
+                <span asp-validation-for="Ingredients" class="text-muted"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Method"></label>
+                <textarea asp-for="Method" cols="40" rows="6" class="form-control vresize"></textarea>
+                <span asp-validation-for="Method" class="text-muted"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create recipe" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>

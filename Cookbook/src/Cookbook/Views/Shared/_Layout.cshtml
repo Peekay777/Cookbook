@@ -2,12 +2,23 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.SiteName - @ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootswatch/yeti/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <div>
+    <div id="main" class="container-fluid">
         @RenderBody()
     </div>
+
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    @RenderSection("scripts", false)
+    <script src="~/js/site.js"></script>
 </body>
 </html>

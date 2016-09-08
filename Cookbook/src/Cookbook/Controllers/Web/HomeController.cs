@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Cookbook.Controllers
+namespace Cookbook.Controllers.Web
 {
     public class HomeController : Controller
     {
