@@ -7,9 +7,8 @@
 
 <div class="row">
     <div class="col-sm-6 col-sm-offset-3">
-        <h2>Cookbook</h2>
         <div>
-            <div><a asp-controller="recipe" asp-action="create" class="btn btn-block btn-success">Add a recipe</a></div>
+            <div class="text-center"><a asp-controller="recipe" asp-action="create" class="text-info">Add new recipe</a></div>
             @{
                 if (Model.Count() == 0)
                 {
@@ -17,6 +16,7 @@
                 }
                 else
                 {
+
                     <ul class="nav">
                         @foreach (var item in Model)
                         {
