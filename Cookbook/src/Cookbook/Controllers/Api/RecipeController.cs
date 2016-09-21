@@ -33,28 +33,40 @@ namespace Cookbook.Controllers.Api
             try
             {
                 var recipe = _repo.GetRecipe(id);
-                return Ok(Mapper.Map<RecipeViewModel>(recipe));
+
+                if (recipe != null)
+                {
+                    return Ok(Mapper.Map<RecipeViewModel>(recipe));
+                }
             }
             catch (Exception ex)
             {
                 // TODO add logger
-                return BadRequest("Error occurred");
             }
+
+            return BadRequest("Recipe not found");
         }
 
         // POST api/values
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]RecipeViewModel theRecipe)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var newRecipe = Mapper.Map<Recipe>(theRecipe);
-                _repo.AddRecipe(newRecipe);
-
-                if (await _repo.SaveChangesAsync())
+                if (ModelState.IsValid)
                 {
-                    return Created($"api/recipe/{newRecipe.Id}", Mapper.Map<RecipeViewModel>(newRecipe));
+                    var newRecipe = Mapper.Map<Recipe>(theRecipe);
+                    _repo.AddRecipe(newRecipe);
+
+                    if (await _repo.SaveChangesAsync())
+                    {
+                        return Created($"api/recipe/{newRecipe.Id}", Mapper.Map<RecipeViewModel>(newRecipe));
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                // TODO add logger
             }
 
             return BadRequest("Failed to save the recipe");
@@ -64,7 +76,7 @@ namespace Cookbook.Controllers.Api
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]RecipeViewModel theRecipe)
         {
-
+            throw new Exception("Method not implemented");
         }
 
         // DELETE api/values/5

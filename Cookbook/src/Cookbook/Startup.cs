@@ -4,6 +4,7 @@ using Cookbook.ViewModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -38,7 +39,7 @@ namespace Cookbook
                 {
                     config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
-            services.AddDbContext<CookbookContext>();
+            services.AddDbContext<CookbookContext>(options => options.UseSqlServer(_config["ConnectionStrings:CookbookContextConnection"]));
             services.AddScoped<ICookbookRepo, CookbookRepo>();
         }
 

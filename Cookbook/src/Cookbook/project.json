@@ -9,6 +9,7 @@
         "Microsoft.AspNetCore.StaticFiles": "1.0.0",
         "Microsoft.EntityFrameworkCore": "1.0.0",
         "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
+        "Microsoft.EntityFrameworkCore.InMemory": "1.0.0",
         "Microsoft.EntityFrameworkCore.Tools": {
             "version": "1.0.0-preview2-final",
             "type": "build"
@@ -66,5 +67,6 @@
 
     "scripts": {
         "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
-    }
+    },
+    "userSecretsId": "aspnet-Cookbook-20160921023535"
 }

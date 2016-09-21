@@ -3,8 +3,8 @@
 <html>
 <head>
     <title>@ViewBag.SiteName - @ViewBag.Title</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootswatch/flatly/bootstrap.min.css" />
@@ -13,21 +13,15 @@
 </head>
 <body>
 
-    <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-            <nav class="navbar navbar-inverse row">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
+    <div class="container-fluid">
+        <div class="row">
+            <div>
+                <nav class="navbar navbar-inverse">
+                    <div class="col-sm-6 col-sm-offset-3 navbar-header">
                         <a class="navbar-brand" asp-controller="recipe" asp-action="index">@ViewBag.SiteName</a>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            </div>
         </div>
     </div>
 
