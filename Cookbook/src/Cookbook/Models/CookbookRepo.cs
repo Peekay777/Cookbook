@@ -19,7 +19,7 @@ namespace Cookbook.Models
         /// <param name="recipe"></param>
         public void AddRecipe(Recipe recipe)
         {
-            _context.Add(recipe);
+            _context.Recipes.Add(recipe);
         }
         /// <summary>
         /// Delete Recipe
