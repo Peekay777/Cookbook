@@ -15,6 +15,7 @@
         <h2>Create Recipe</h2>
         <form method="post" class="form-horizontal well">
             <fieldset>
+                <input type="hidden" value="@Model.Id" name="id" />
                 <div asp-validation-summary="ModelOnly"></div>
                 <div class="form-group">
                     <label asp-for="Name"></label>
@@ -28,16 +29,30 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Ingredients"></label>
-                    <textarea asp-for="Ingredients" cols="40" rows="4" class="form-control vresize"></textarea>
+                    @{
+                        var ingredientTextArea = "";
+                        foreach (var item in Model.Ingredients)
+                        {
+                            ingredientTextArea += (item.Description + "\n");
+                        }
+                    }
+                    <textarea id="Ingredients" name="Ingredients" data-val="true" data-val-required="The Ingredients field is required." cols="40" rows="4" class="form-control vresize">@ingredientTextArea</textarea>
                     <span asp-validation-for="Ingredients" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Method"></label>
-                    <textarea asp-for="Method" cols="40" rows="6" class="form-control vresize"></textarea>
+                    @{
+                        var methodTextArea = "";
+                        foreach (var item in Model.Method)
+                        {
+                            methodTextArea += (item.Task + "\n");
+                        }
+                    }
+                    <textarea id="Method" name="Method" data-val="true" data-val-required="The Method field is required." cols="40" rows="6" class="form-control vresize">@methodTextArea</textarea>
                     <span asp-validation-for="Method" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Create recipe" class="btn btn-success" data-transmit="create" />
+                    <input type="submit" value="Update recipe" class="btn btn-success" data-transmit="upgrade" />
                     <input type="button" value="Cancel" class="cancel btn btn-default pull-right" />
                 </div>
             </fieldset>

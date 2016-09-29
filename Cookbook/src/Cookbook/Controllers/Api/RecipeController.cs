@@ -2,6 +2,7 @@
 using Cookbook.Models;
 using Cookbook.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -11,10 +12,12 @@ namespace Cookbook.Controllers.Api
     public class RecipeController : Controller
     {
         private ICookbookRepo _repo;
+        private ILogger<RecipeController> _log;
 
-        public RecipeController(ICookbookRepo repo)
+        public RecipeController(ICookbookRepo repo, ILogger<RecipeController> logger)
         {
             _repo = repo;
+            _log = logger;
         }
 
         // GET: api/values
@@ -41,7 +44,7 @@ namespace Cookbook.Controllers.Api
             }
             catch (Exception ex)
             {
-                // TODO add logger
+                _log.LogError("Error finding recipe {0}:\n {1}", id, ex);
             }
 
             return BadRequest("Recipe not found");
@@ -66,7 +69,7 @@ namespace Cookbook.Controllers.Api
             }
             catch (Exception ex)
             {
-                // TODO add logger
+                _log.LogError("Error saving a recipe {0}:\n {1}", theRecipe.Name, ex);
             }
 
             return BadRequest("Failed to save the recipe");
@@ -74,9 +77,32 @@ namespace Cookbook.Controllers.Api
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]RecipeViewModel theRecipe)
+        public async Task<IActionResult> Put(int id, [FromBody]RecipeViewModel theRecipe)
         {
-            throw new Exception("Method not implemented");
+            try
+            {
+                if (ModelState.IsValid && id == theRecipe.Id)
+                {
+                    var newRecipe = Mapper.Map<Recipe>(theRecipe);
+                    if (_repo.EditRecipe(id, newRecipe))
+                    {
+                        if (await _repo.SaveChangesAsync())
+                        {
+                            return NoContent();
+                        }
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.LogError("Error saving a recipe {0}:\n {1}", theRecipe.Name, ex);
+            }
+
+            return BadRequest("Failed to save the recipe");
         }
 
         // DELETE api/values/5
@@ -99,7 +125,7 @@ namespace Cookbook.Controllers.Api
             }
             catch (Exception ex)
             {
-               // TODO add logger
+                _log.LogError("Error deleting the recipe {0}:\n {1}", id, ex);
             }
 
             return BadRequest("Failed to delete the recipe");

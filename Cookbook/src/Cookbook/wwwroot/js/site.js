@@ -10,7 +10,15 @@
             var $form = $(this);
 
             if ($form.valid()) {
-                saveRecipe();
+                var transmit = $form.find('input[type=submit]').data('transmit');
+
+                if (transmit === 'create') {
+                    saveRecipe();
+                }
+                else if (transmit === 'upgrade') {
+                    var id = $form.find('input[name=id]').val();
+                    updateRecipe(id);
+                }
             }
         });
 
@@ -64,6 +72,37 @@
         .done(function (recipe) {
             console.debug(recipe);
             window.location.href = '/recipe/detail/' + recipe.id;
+        })
+        .fail(function (jqXHR, error, errorThrown) {
+            console.log(error);
+        });
+    }
+
+    function updateRecipe(id) {
+        var name = $('#Name').val();
+        var serves = $('#Serves').val();
+        var ingredients = convertTextarea($('#Ingredients').val(), 'description');
+        var method = convertTextarea($('#Method').val(), 'task');
+
+        var request = {
+            'id': id,
+            'name': name,
+            'serves': serves,
+            'ingredients': ingredients,
+            'method': method
+        };
+
+        console.debug(request);
+
+        var recipe = $.ajax({
+            contentType: "application/json; charset=utf-8",
+            url: '/api/recipe/' + id,
+            data: JSON.stringify(request),
+            dataType: 'json',
+            type: 'PUT',
+        })
+        .done(function () {
+            window.location.href = '/recipe/detail/' + id;
         })
         .fail(function (jqXHR, error, errorThrown) {
             console.log(error);

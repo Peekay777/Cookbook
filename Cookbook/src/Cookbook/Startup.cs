@@ -56,11 +56,11 @@ namespace Cookbook
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                loggerFactory.AddConsole(LogLevel.Information);
+                loggerFactory.AddDebug(LogLevel.Information);
             }
             else
             {
-                loggerFactory.AddConsole(LogLevel.Error);
+                loggerFactory.AddDebug(LogLevel.Error);
             }
 
             app.UseStaticFiles();

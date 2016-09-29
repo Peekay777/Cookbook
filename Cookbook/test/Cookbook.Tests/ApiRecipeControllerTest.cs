@@ -4,8 +4,8 @@ using Cookbook.Models;
 using Cookbook.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -14,7 +14,8 @@ namespace Cookbook.Tests
 {
     public class ApiRecipeControllerTest
     {
-        private readonly IServiceProvider serviceProvider;
+        //private readonly IServiceProvider serviceProvider;
+        private ILogger<RecipeController> _logger = new LoggerFactory().AddDebug().CreateLogger<RecipeController>();
         private readonly Recipe _sampleRecipe= new Recipe
             {
                 Name = "Lemon Drizzle",
@@ -48,13 +49,13 @@ namespace Cookbook.Tests
                 config.CreateMap<InstructionViewModel, Instruction>().ReverseMap();
             });
 
-            var services = new ServiceCollection();
+            //var services = new ServiceCollection();
 
-            services.AddEntityFramework()
-                .AddEntityFrameworkInMemoryDatabase()
-                .AddDbContext<CookbookContext>(options => options.UseInMemoryDatabase());
+            //services.AddEntityFramework()
+            //    .AddEntityFrameworkInMemoryDatabase()
+            //    .AddDbContext<CookbookContext>(options => options.UseInMemoryDatabase());
 
-            serviceProvider = services.BuildServiceProvider();
+            //serviceProvider = services.BuildServiceProvider();
         }
 
         [Fact(DisplayName = "Get all success")]
@@ -65,7 +66,7 @@ namespace Cookbook.Tests
             {
                 CreateTestData(dbContext, _sampleRecipe);
                 var repo = new CookbookRepo(dbContext);
-                var controller = new RecipeController(repo);
+                var controller = new RecipeController(repo, _logger);
 
                 // Act
                 var result = controller.Get() as ObjectResult;
@@ -86,7 +87,7 @@ namespace Cookbook.Tests
             {
                 CreateTestData(dbContext, _sampleRecipe);
                 var repo = new CookbookRepo(dbContext);
-                var controller = new RecipeController(repo);
+                var controller = new RecipeController(repo, _logger);
                 
                 // Act
                 var result = controller.Get(id) as ObjectResult;
@@ -105,7 +106,7 @@ namespace Cookbook.Tests
             {
                 CreateTestData(dbContext);
                 var repo = new CookbookRepo(dbContext);
-                var controller = new RecipeController(repo);
+                var controller = new RecipeController(repo, _logger);
 
                 // Act
                 var result = await controller.Post(Mapper.Map<RecipeViewModel>(_sampleRecipe)) as ObjectResult;
@@ -127,7 +128,7 @@ namespace Cookbook.Tests
             {
                 CreateTestData(dbContext, _sampleRecipe);
                 var repo = new CookbookRepo(dbContext);
-                var controller = new RecipeController(repo);
+                var controller = new RecipeController(repo, _logger);
 
                 // Act
                 var result = await controller.Post(new RecipeViewModel { Id = 1 }) as ObjectResult;
@@ -135,6 +136,33 @@ namespace Cookbook.Tests
                 //Assert
                 Assert.IsAssignableFrom(typeof(ObjectResult), result);
                 Assert.Equal(400, result.StatusCode);
+            }
+        }
+
+        [Theory(DisplayName = "Edit a recipe")]
+        [InlineData(1, "Sponge Cake", 204)]
+        [InlineData(999, "Sponge Cake", 404)]
+        public async void Put_a_recipe(int id, string expectedName, int expectedStatusCode)
+        {
+            // Arrange
+            using (var dbContext = new CookbookContext(CreateNewContextOptions()))
+            {
+                CreateTestData(dbContext, _sampleRecipe);
+                var repo = new CookbookRepo(dbContext);
+                var controller = new RecipeController(repo, _logger);
+                var editRecipe = new Recipe();
+                editRecipe.Id = id;
+                editRecipe.Name = expectedName;
+                editRecipe.Serves = _sampleRecipe.Serves;
+                editRecipe.Ingredients = _sampleRecipe.Ingredients;
+                editRecipe.Method = _sampleRecipe.Method;
+
+                // Act
+                var result = await controller.Put(id, Mapper.Map<RecipeViewModel>(editRecipe)) as StatusCodeResult;
+
+                //Assert
+                Assert.IsAssignableFrom(typeof(StatusCodeResult), result);
+                Assert.Equal(expectedStatusCode, result.StatusCode);
             }
         }
 
@@ -148,7 +176,7 @@ namespace Cookbook.Tests
             {
                 CreateTestData(dbContext, _sampleRecipe);
                 var repo = new CookbookRepo(dbContext);
-                var controller = new RecipeController(repo);
+                var controller = new RecipeController(repo, _logger);
 
                 // Act
                 var result = await controller.Delete(id) as StatusCodeResult;

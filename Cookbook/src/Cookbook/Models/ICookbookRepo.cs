@@ -10,6 +10,8 @@ namespace Cookbook.Models
 
         void AddRecipe(Recipe recipe);
 
+        bool EditRecipe(int id, Recipe recipe);
+
         bool DeleteRecipe(int id);
 
         Task<bool> SaveChangesAsync();

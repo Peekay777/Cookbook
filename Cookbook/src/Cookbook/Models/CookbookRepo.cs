@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace Cookbook.Models
 {
@@ -20,6 +21,30 @@ namespace Cookbook.Models
         public void AddRecipe(Recipe recipe)
         {
             _context.Recipes.Add(recipe);
+        }
+        /// <summary>
+        /// Edit recipe
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="recipe"></param>
+        public bool EditRecipe(int id, Recipe newRecipe)
+        {
+            Recipe recipe = GetRecipe(id);
+
+            if (recipe == null)
+            {
+                return false;
+            }
+            else
+            {
+                recipe.Name = newRecipe.Name;
+                recipe.Serves = newRecipe.Serves;
+                recipe.Ingredients = newRecipe.Ingredients;
+                recipe.Method = newRecipe.Method;
+
+                _context.Entry(recipe).State = EntityState.Modified;
+                return true;
+            }
         }
         /// <summary>
         /// Delete Recipe
@@ -44,14 +69,6 @@ namespace Cookbook.Models
             }
         }
         /// <summary>
-        /// Get all recipes
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<Recipe> GetAll()
-        {
-            return _context.Recipes.ToList();
-        }
-        /// <summary>
         /// Get a recipe with id
         /// </summary>
         /// <param name="id"></param>
@@ -62,7 +79,16 @@ namespace Cookbook.Models
               .Include(r => r.Ingredients)
               .Include(r => r.Method)
               .Where(r => r.Id == id)
+              .DefaultIfEmpty(null)
               .FirstOrDefault();
+        }
+        /// <summary>
+        /// Get all recipes
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Recipe> GetAll()
+        {
+            return _context.Recipes.ToList();
         }
         /// <summary>
         /// Save database changes

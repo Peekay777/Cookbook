@@ -14,7 +14,6 @@ namespace Cookbook.Controllers.Web
             _repo = repo;
         }
 
-        // GET: /<controller>/
         public IActionResult Index()
         {
             var model = _repo.GetAll();
@@ -30,10 +29,17 @@ namespace Cookbook.Controllers.Web
             return View(vm);
         }
 
-        // GET: /<controller>/
         public IActionResult Create()
         {
             return View();
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var model = _repo.GetRecipe(id);
+            var vm = Mapper.Map<RecipeViewModel>(model);
+
+            return View(vm);
         }
     }
 }
