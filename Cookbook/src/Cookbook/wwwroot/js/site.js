@@ -1,10 +1,7 @@
 ﻿(function () {
     $(document).ready(function () {
-        $('.cancel').on('click', function () {
-            window.location.href = '/recipe/index';
-        });
-
-        $('form').on('submit', function (e) {
+        // submit forms with recipe fields
+        $('form.recipe').on('submit', function (e) {
             e.preventDefault();
 
             var $form = $(this);
@@ -12,22 +9,29 @@
             if ($form.valid()) {
                 var transmit = $form.find('input[type=submit]').data('transmit');
 
-                if (transmit === 'create') {
+                if (transmit === 'create') {    // creating new recipe
                     saveRecipe();
                 }
-                else if (transmit === 'upgrade') {
+                else if (transmit === 'update') {      // update a recipe
                     var id = $form.find('input[name=id]').val();
                     updateRecipe(id);
                 }
             }
         });
 
-        $('.deleteBtn').on('click', function (e) {
+        // cancel edit button
+        $('input.cancel').on('click', function () {
+            window.location.href = '/recipe/index';
+        });
+
+        // delete launches modal form
+        $('a.deleteBtn').on('click', function (e) {
             e.preventDefault();
 
             $('#deletePrompt').modal('show');
         });
 
+        // modal form delete confirm button
         $('button[name=confirm').on('click', function (e) {
             e.preventDefault();
 
@@ -36,6 +40,7 @@
         })
     });
 
+    // Converts TextArea input into arrays
     function convertTextarea(text, field) {
         var newArray = [];
         var arrayText = text.split('\n').filter(function (e) { return e });
@@ -47,6 +52,7 @@
         return newArray;
     }
 
+    // Save recipe with AJAX api request
     function saveRecipe() {
         var name = $('#Name').val();
         var serves = $('#Serves').val();
@@ -78,6 +84,7 @@
         });
     }
 
+    // Update recipe with AJAX api request
     function updateRecipe(id) {
         var name = $('#Name').val();
         var serves = $('#Serves').val();
@@ -109,6 +116,7 @@
         });
     }
 
+    // Delete recipe with AJAX api request
     function deleteRecipe(id) {
         var url = '/api/recipe/' + id;
 
