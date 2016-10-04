@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cookbook.Models
 {
-    public class CookbookContext : DbContext
+    public class CookbookContext : IdentityDbContext<CookbookUser>
     {
         public CookbookContext(DbContextOptions options)
             : base(options)

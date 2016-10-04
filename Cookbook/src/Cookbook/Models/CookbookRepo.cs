@@ -27,7 +27,7 @@ namespace Cookbook.Models
         /// </summary>
         /// <param name="id"></param>
         /// <param name="recipe"></param>
-        public bool EditRecipe(int id, Recipe newRecipe)
+        public bool EditRecipe(int id, Recipe newRecipe, string userName)
         {
             Recipe recipe = GetRecipe(id);
 
@@ -39,6 +39,7 @@ namespace Cookbook.Models
             {
                 recipe.Name = newRecipe.Name;
                 recipe.Serves = newRecipe.Serves;
+                recipe.UserName = userName;
                 recipe.Ingredients = newRecipe.Ingredients;
                 recipe.Method = newRecipe.Method;
 
@@ -91,6 +92,17 @@ namespace Cookbook.Models
             return _context.Recipes.ToList();
         }
         /// <summary>
+        /// Get all recipes for a user
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public IEnumerable<Recipe> GetAllByUser(string userName)
+        {
+            return _context.Recipes
+                .Where(r => r.UserName == userName)
+                .ToList();
+        }
+        /// <summary>
         /// Save database changes
         /// </summary>
         /// <returns></returns>
@@ -98,5 +110,6 @@ namespace Cookbook.Models
         {
             return (await _context.SaveChangesAsync()) > 0;
         }
+        
     }
 }

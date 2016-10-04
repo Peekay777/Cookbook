@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Cookbook.Models;
 using Cookbook.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cookbook.Controllers.Web
 {
+    [Authorize]
     public class RecipeController : Controller
     {
         private ICookbookRepo _repo;
@@ -16,7 +18,7 @@ namespace Cookbook.Controllers.Web
 
         public IActionResult Index()
         {
-            var model = _repo.GetAll();
+            var model = _repo.GetAllByUser(User.Identity.Name);
 
             return View(model);
         }

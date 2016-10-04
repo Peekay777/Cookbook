@@ -1,7 +1,17 @@
 {
-    "version": "1.0.0-*",
+    "dependencies": {
+        "Cookbook": "1.0.0-*",
+        "dotnet-test-xunit": "2.2.0-preview2-build1029",
+        "XUnit": "2.2.0-beta2-build3300",
+        "moq.netcore": "4.4.0-beta8"
+    },
     "frameworks": {
         "netcoreapp1.0": {
+            "imports": [
+                "dotnet5.6",
+                "dnxcore50",
+                "portable-net45+win8"
+            ],
             "dependencies": {
                 "Microsoft.NETCore.App": {
                     "type": "platform",
@@ -10,10 +20,6 @@
             }
         }
     },
-    "dependencies": {
-        "XUnit": "2.2.0-beta2-build3300",
-        "dotnet-test-xunit": "2.2.0-preview2-build1029",
-        "Cookbook": "1.0.0-*"
-    },
-    "testRunner": "xunit"
+    "testRunner": "xunit",
+    "version": "1.0.0-*"
 }

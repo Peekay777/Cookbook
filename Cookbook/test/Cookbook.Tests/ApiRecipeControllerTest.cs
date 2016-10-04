@@ -2,12 +2,16 @@
 using Cookbook.Controllers.Api;
 using Cookbook.Models;
 using Cookbook.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Principal;
 using Xunit;
 
 namespace Cookbook.Tests
@@ -16,11 +20,12 @@ namespace Cookbook.Tests
     {
         //private readonly IServiceProvider serviceProvider;
         private ILogger<RecipeController> _logger = new LoggerFactory().AddDebug().CreateLogger<RecipeController>();
-        private readonly Recipe _sampleRecipe= new Recipe
-            {
-                Name = "Lemon Drizzle",
-                Serves = 8,
-                Ingredients = new List<Ingredient>
+        private readonly Recipe _sampleRecipe = new Recipe
+        {
+            Name = "Lemon Drizzle",
+            Serves = 8,
+            UserName = "test@test.com",
+            Ingredients = new List<Ingredient>
                 {
                     new Ingredient { Description="200g Demerara Sugar" },
                     new Ingredient { Description="200g Butter" },
@@ -29,14 +34,13 @@ namespace Cookbook.Tests
                     new Ingredient { Description="2 Eggs" },
                     new Ingredient { Description="200g Caster Sugar" }
                 },
-                Method = new List<Instruction>
+            Method = new List<Instruction>
                 {
                     new Instruction { Task="Heat the butter and mix in demerara sugar until melted" },
                     new Instruction { Task="Add sifted flour and the eggs and mix until smooth" },
                     new Instruction { Task="Put into pre-heated oven for 35-40 minutes until golden brown" }
                 }
-            };
-
+        };
         /// <summary>
         /// Constructor
         /// </summary>
@@ -48,14 +52,6 @@ namespace Cookbook.Tests
                 config.CreateMap<IngredientViewModel, Ingredient>().ReverseMap();
                 config.CreateMap<InstructionViewModel, Instruction>().ReverseMap();
             });
-
-            //var services = new ServiceCollection();
-
-            //services.AddEntityFramework()
-            //    .AddEntityFrameworkInMemoryDatabase()
-            //    .AddDbContext<CookbookContext>(options => options.UseInMemoryDatabase());
-
-            //serviceProvider = services.BuildServiceProvider();
         }
 
         [Fact(DisplayName = "Get all success")]
@@ -65,6 +61,21 @@ namespace Cookbook.Tests
             using (var dbContext = new CookbookContext(CreateNewContextOptions()))
             {
                 CreateTestData(dbContext, _sampleRecipe);
+
+                //Mock<CookbookContext> _dbContextMock = new Mock<CookbookContext>(dbContext);
+                //var repo = new CookbookRepo(_dbContextMock.Object);
+                //var controller = new RecipeController(repo, _logger)
+                //{
+                //    ControllerContext = new ControllerContext
+                //    {
+                //        HttpContext = new DefaultHttpContext()
+                //    }
+                //};
+                //controller.ControllerContext.HttpContext.User = new GenericPrincipal(new GenericIdentity("test@test.com"), null);
+                //CookbookUser fakeUser = new CookbookUser();
+                //Mock<DbSet<CookbookUser>> userDbSetMock = DbSetMock.Create(fakeUser);
+                //_dbContextMock.Setup(x => x.Users).Returns(userDbSetMock.Object);
+
                 var repo = new CookbookRepo(dbContext);
                 var controller = new RecipeController(repo, _logger);
 
@@ -88,13 +99,13 @@ namespace Cookbook.Tests
                 CreateTestData(dbContext, _sampleRecipe);
                 var repo = new CookbookRepo(dbContext);
                 var controller = new RecipeController(repo, _logger);
-                
+
                 // Act
                 var result = controller.Get(id) as ObjectResult;
 
                 // Assert
                 Assert.IsAssignableFrom(typeof(ObjectResult), result);
-                Assert.Equal(expectedStatusCode, result.StatusCode); 
+                Assert.Equal(expectedStatusCode, result.StatusCode);
             }
         }
 
@@ -208,6 +219,28 @@ namespace Cookbook.Tests
                    .UseInternalServiceProvider(serviceProvider);
 
             return builder.Options;
+        }
+    }
+
+    public static class DbSetMock
+    {
+        public static Mock<DbSet<T>> Create<T>(params T[] elements) where T : class
+        {
+            return new List<T>(elements).AsDbSetMock();
+        }
+    }
+
+    public static class ListExtensions
+    {
+        public static Mock<DbSet<T>> AsDbSetMock<T>(this List<T> list) where T : class
+        {
+            IQueryable<T> queryableList = list.AsQueryable();
+            Mock<DbSet<T>> dbSetMock = new Mock<DbSet<T>>();
+            dbSetMock.As<IQueryable<T>>().Setup(x => x.Provider).Returns(queryableList.Provider);
+            dbSetMock.As<IQueryable<T>>().Setup(x => x.Expression).Returns(queryableList.Expression);
+            dbSetMock.As<IQueryable<T>>().Setup(x => x.ElementType).Returns(queryableList.ElementType);
+            dbSetMock.As<IQueryable<T>>().Setup(x => x.GetEnumerator()).Returns(queryableList.GetEnumerator());
+            return dbSetMock;
         }
     }
 }

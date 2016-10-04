@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Cookbook.Models;
 using Cookbook.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 namespace Cookbook.Controllers.Api
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class RecipeController : Controller
     {
         private ICookbookRepo _repo;
@@ -24,7 +26,7 @@ namespace Cookbook.Controllers.Api
         [HttpGet]
         public IActionResult Get()
         {
-            var recipes = _repo.GetAll();
+            var recipes = _repo.GetAllByUser(User.Identity.Name);
 
             return Ok(recipes);
         }
@@ -59,6 +61,7 @@ namespace Cookbook.Controllers.Api
                 if (ModelState.IsValid)
                 {
                     var newRecipe = Mapper.Map<Recipe>(theRecipe);
+                    newRecipe.UserName = User.Identity.Name;
                     _repo.AddRecipe(newRecipe);
 
                     if (await _repo.SaveChangesAsync())
@@ -84,7 +87,7 @@ namespace Cookbook.Controllers.Api
                 if (ModelState.IsValid && id == theRecipe.Id)
                 {
                     var newRecipe = Mapper.Map<Recipe>(theRecipe);
-                    if (_repo.EditRecipe(id, newRecipe))
+                    if (_repo.EditRecipe(id, newRecipe, User.Identity.Name))
                     {
                         if (await _repo.SaveChangesAsync())
                         {
