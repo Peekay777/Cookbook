@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/bootswatch/flatly/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootswatch/Yeti/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -15,19 +15,21 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div>
-                <nav class="navbar navbar-inverse">
-                    <div class="col-sm-6 col-sm-offset-3 navbar-header">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid col-sm-6 col-sm-offset-3">
+                    <div class="navbar-header">
                         <a class="navbar-brand" asp-controller="recipe" asp-action="index">@ViewBag.SiteName</a>
                     </div>
-                </nav>
-            </div>
+                </div>
+            </nav>
+        </div>
+        <div id="main" class="row">
+            <!-- Views -->
+            @RenderBody()
         </div>
     </div>
 
-    <div id="main" class="container-fluid">
-        @RenderBody()
-    </div>
+
 
     <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>

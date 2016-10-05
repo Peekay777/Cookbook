@@ -1,61 +1,57 @@
 ﻿@model Cookbook.ViewModels.RecipeViewModel
 @{
     ViewBag.SiteName = "Cookbook";
-    ViewBag.Title = "Recipes";
+    ViewBag.Title = "Edit";
 }
-
 @section scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }
 
-
-<div class="row">
-    <div class="col-sm-6 col-sm-offset-3">
-        <h2>Create Recipe</h2>
-        <form method="post" class="form-horizontal well recipe">
-            <fieldset>
-                <input type="hidden" value="@Model.Id" name="id" />
-                <div asp-validation-summary="ModelOnly"></div>
-                <div class="form-group">
-                    <label asp-for="Name"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Serves"></label>
-                    <input asp-for="Serves" class="form-control" />
-                    <span asp-validation-for="Serves" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Ingredients"></label>
-                    @{
-                        var ingredientTextArea = "";
-                        foreach (var item in Model.Ingredients)
-                        {
-                            ingredientTextArea += (item.Description + "\n");
-                        }
+<div class="col-sm-6 col-sm-offset-3">
+    <h2>Create Recipe</h2>
+    <form method="post" class="form-horizontal well recipe">
+        <fieldset>
+            <input type="hidden" value="@Model.Id" name="id" />
+            <div asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Serves"></label>
+                <input asp-for="Serves" class="form-control" />
+                <span asp-validation-for="Serves" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ingredients"></label>
+                @{
+                    var ingredientTextArea = "";
+                    foreach (var item in Model.Ingredients)
+                    {
+                        ingredientTextArea += (item.Description + "\n");
                     }
-                    <textarea id="Ingredients" name="Ingredients" data-val="true" data-val-required="The Ingredients field is required." cols="40" rows="4" class="form-control vresize">@ingredientTextArea</textarea>
-                    <span asp-validation-for="Ingredients" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Method"></label>
-                    @{
-                        var methodTextArea = "";
-                        foreach (var item in Model.Method)
-                        {
-                            methodTextArea += (item.Task + "\n");
-                        }
+                }
+                <textarea id="Ingredients" name="Ingredients" data-val="true" data-val-required="The Ingredients field is required." cols="40" rows="4" class="form-control vresize">@ingredientTextArea</textarea>
+                <span asp-validation-for="Ingredients" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Method"></label>
+                @{
+                    var methodTextArea = "";
+                    foreach (var item in Model.Method)
+                    {
+                        methodTextArea += (item.Task + "\n");
                     }
-                    <textarea id="Method" name="Method" data-val="true" data-val-required="The Method field is required." cols="40" rows="6" class="form-control vresize">@methodTextArea</textarea>
-                    <span asp-validation-for="Method" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Update recipe" class="btn btn-success" data-transmit="update" />
-                    <a asp-controller="recipe" asp-action="detail" asp-route-id="@Model.Id" class="btn btn-default pull-right">Cancel</a>
-                </div>
-            </fieldset>
-        </form>
-    </div>
+                }
+                <textarea id="Method" name="Method" data-val="true" data-val-required="The Method field is required." cols="40" rows="6" class="form-control vresize">@methodTextArea</textarea>
+                <span asp-validation-for="Method" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update recipe" class="btn btn-success" data-transmit="update" />
+                <a asp-controller="recipe" asp-action="detail" asp-route-id="@Model.Id" class="btn btn-default pull-right">Cancel</a>
+            </div>
+        </fieldset>
+    </form>
 </div>

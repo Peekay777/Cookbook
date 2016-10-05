@@ -1,42 +1,39 @@
 ﻿@model Cookbook.ViewModels.RecipeViewModel
 @{
     ViewBag.SiteName = "Cookbook";
-    ViewBag.Title = "Recipe Details";
+    ViewBag.Title = "Details";
 }
 
-
-
-<div class="row">
-    <div class="col-sm-6 col-sm-offset-3">
-        <h2>@Model.Name</h2>
-        <div>
-            <span>Serves: @Model.Serves</span>
-        </div>
-        <div>
-            <h4>Ingredients</h4>
-            <ul>
-                @foreach (var item in Model.Ingredients)
-                {
-                    <li>@item.Description</li>
-                }
-            </ul>
-        </div>
-        <div>
-            <h4>Method</h4>
-            <ol>
-                @foreach (var item in Model.Method)
-                {
-                    <li>@item.Task</li>
-                }
-            </ol>
-        </div>
-        <div class="text-right">
-            <input type="hidden" value="@Model.Id" name="id" />
-            <a class="btn btn-success btn-sm" asp-controller="recipe" asp-action="edit" asp-route-id="@Model.Id">Modify</a>
-            <a class="btn btn-danger btn-sm deleteBtn">Delete</a>
-        </div>
+<div class="col-sm-6 col-sm-offset-3">
+    <h2>@Model.Name</h2>
+    <div>
+        <span>Serves: @Model.Serves</span>
+    </div>
+    <div>
+        <h4>Ingredients</h4>
+        <ul>
+            @foreach (var item in Model.Ingredients)
+            {
+                <li>@item.Description</li>
+            }
+        </ul>
+    </div>
+    <div>
+        <h4>Method</h4>
+        <ol>
+            @foreach (var item in Model.Method)
+            {
+                <li>@item.Task</li>
+            }
+        </ol>
+    </div>
+    <div class="text-center">
+        <input type="hidden" value="@Model.Id" name="id" />
+        <a class="btn btn-success btn-sm" asp-controller="recipe" asp-action="edit" asp-route-id="@Model.Id">Modify</a>
+        <a class="btn btn-danger btn-sm deleteBtn">Delete</a>
     </div>
 </div>
+
 
 <div id="deletePrompt" class="modal">
     <div class="modal-dialog">
@@ -46,7 +43,7 @@
                 <h4 class="modal-title">Delete @Model.Name</h4>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete recipe for "@Model.Name"?</p>
+                <p>Are you sure you want to delete the recipe for "@Model.Name"?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" name="confirm">Confirm</button>
