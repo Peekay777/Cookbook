@@ -27,10 +27,10 @@
             }
         </ol>
     </div>
-    <div class="text-center">
+    <div class="well">
         <input type="hidden" value="@Model.Id" name="id" />
-        <a class="btn btn-success btn-sm" asp-controller="recipe" asp-action="edit" asp-route-id="@Model.Id">Modify</a>
-        <a class="btn btn-danger btn-sm deleteBtn">Delete</a>
+        <a class="btn btn-success" asp-controller="recipe" asp-action="edit" asp-route-id="@Model.Id">Modify</a>
+        <a class="btn btn-danger deleteBtn pull-right">Delete</a>
     </div>
 </div>
 
