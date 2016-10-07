@@ -26,7 +26,7 @@ namespace Cookbook.Controllers.Api
         [HttpGet]
         public IActionResult Get()
         {
-            var recipes = _repo.GetAllByUser(User.Identity.Name);
+            var recipes = _repo.GetAllByUser(GetUserIdentityName());
 
             return Ok(recipes);
         }
@@ -61,7 +61,7 @@ namespace Cookbook.Controllers.Api
                 if (ModelState.IsValid)
                 {
                     var newRecipe = Mapper.Map<Recipe>(theRecipe);
-                    newRecipe.UserName = User.Identity.Name;
+                    newRecipe.UserName = GetUserIdentityName();
                     _repo.AddRecipe(newRecipe);
 
                     if (await _repo.SaveChangesAsync())
@@ -87,7 +87,7 @@ namespace Cookbook.Controllers.Api
                 if (ModelState.IsValid && id == theRecipe.Id)
                 {
                     var newRecipe = Mapper.Map<Recipe>(theRecipe);
-                    if (_repo.EditRecipe(id, newRecipe, User.Identity.Name))
+                    if (_repo.EditRecipe(id, newRecipe, GetUserIdentityName()))
                     {
                         if (await _repo.SaveChangesAsync())
                         {
@@ -132,6 +132,11 @@ namespace Cookbook.Controllers.Api
             }
 
             return BadRequest("Failed to delete the recipe");
+        }
+
+        public virtual string GetUserIdentityName()
+        {
+            return User.Identity.Name;
         }
     }
 }

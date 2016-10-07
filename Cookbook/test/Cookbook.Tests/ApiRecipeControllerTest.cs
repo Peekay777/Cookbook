@@ -2,17 +2,14 @@
 using Cookbook.Controllers.Api;
 using Cookbook.Models;
 using Cookbook.ViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
 using Xunit;
+
 
 namespace Cookbook.Tests
 {
@@ -20,6 +17,7 @@ namespace Cookbook.Tests
     {
         //private readonly IServiceProvider serviceProvider;
         private ILogger<RecipeController> _logger = new LoggerFactory().AddDebug().CreateLogger<RecipeController>();
+        private string _username = "test@test.com";
         private readonly Recipe _sampleRecipe = new Recipe
         {
             Name = "Lemon Drizzle",
@@ -61,23 +59,8 @@ namespace Cookbook.Tests
             using (var dbContext = new CookbookContext(CreateNewContextOptions()))
             {
                 CreateTestData(dbContext, _sampleRecipe);
-
-                //Mock<CookbookContext> _dbContextMock = new Mock<CookbookContext>(dbContext);
-                //var repo = new CookbookRepo(_dbContextMock.Object);
-                //var controller = new RecipeController(repo, _logger)
-                //{
-                //    ControllerContext = new ControllerContext
-                //    {
-                //        HttpContext = new DefaultHttpContext()
-                //    }
-                //};
-                //controller.ControllerContext.HttpContext.User = new GenericPrincipal(new GenericIdentity("test@test.com"), null);
-                //CookbookUser fakeUser = new CookbookUser();
-                //Mock<DbSet<CookbookUser>> userDbSetMock = DbSetMock.Create(fakeUser);
-                //_dbContextMock.Setup(x => x.Users).Returns(userDbSetMock.Object);
-
                 var repo = new CookbookRepo(dbContext);
-                var controller = new RecipeController(repo, _logger);
+                var controller = new RecipeControllerTest(repo, _logger, _username);
 
                 // Act
                 var result = controller.Get() as ObjectResult;
@@ -117,7 +100,7 @@ namespace Cookbook.Tests
             {
                 CreateTestData(dbContext);
                 var repo = new CookbookRepo(dbContext);
-                var controller = new RecipeController(repo, _logger);
+                var controller = new RecipeControllerTest(repo, _logger, _username);
 
                 // Act
                 var result = await controller.Post(Mapper.Map<RecipeViewModel>(_sampleRecipe)) as ObjectResult;
@@ -160,7 +143,7 @@ namespace Cookbook.Tests
             {
                 CreateTestData(dbContext, _sampleRecipe);
                 var repo = new CookbookRepo(dbContext);
-                var controller = new RecipeController(repo, _logger);
+                var controller = new RecipeControllerTest(repo, _logger, _username);
                 var editRecipe = new Recipe();
                 editRecipe.Id = id;
                 editRecipe.Name = expectedName;
@@ -222,25 +205,22 @@ namespace Cookbook.Tests
         }
     }
 
-    public static class DbSetMock
+    /// <summary>
+    /// Recipe test controller overridden due to authentication
+    /// </summary>
+    public class RecipeControllerTest : RecipeController
     {
-        public static Mock<DbSet<T>> Create<T>(params T[] elements) where T : class
-        {
-            return new List<T>(elements).AsDbSetMock();
-        }
-    }
+        private string _userName;
 
-    public static class ListExtensions
-    {
-        public static Mock<DbSet<T>> AsDbSetMock<T>(this List<T> list) where T : class
+        public RecipeControllerTest(ICookbookRepo repo, ILogger<RecipeController> logger, string userName) 
+            : base(repo, logger)
         {
-            IQueryable<T> queryableList = list.AsQueryable();
-            Mock<DbSet<T>> dbSetMock = new Mock<DbSet<T>>();
-            dbSetMock.As<IQueryable<T>>().Setup(x => x.Provider).Returns(queryableList.Provider);
-            dbSetMock.As<IQueryable<T>>().Setup(x => x.Expression).Returns(queryableList.Expression);
-            dbSetMock.As<IQueryable<T>>().Setup(x => x.ElementType).Returns(queryableList.ElementType);
-            dbSetMock.As<IQueryable<T>>().Setup(x => x.GetEnumerator()).Returns(queryableList.GetEnumerator());
-            return dbSetMock;
+            _userName = userName;
+        }
+
+        public override string GetUserIdentityName()
+        {
+            return _userName;
         }
     }
 }
