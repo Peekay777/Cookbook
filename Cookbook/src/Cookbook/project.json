@@ -26,13 +26,15 @@
         "Microsoft.NETCore.App": {
             "version": "1.0.0",
             "type": "platform"
-        }
+        },
+        "Sendgrid": "8.0.5"
     },
     "frameworks": {
         "netcoreapp1.0": {
             "imports": [
                 "dotnet5.6",
-                "portable-net45+win8"
+                "portable-net45+win8",
+                "net"
             ]
         }
     },

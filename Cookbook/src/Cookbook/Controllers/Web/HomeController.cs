@@ -6,6 +6,11 @@ namespace Cookbook.Controllers.Web
     {
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(RecipeController.Index), "Recipe");
+            }
+
             return View();
         }
     }

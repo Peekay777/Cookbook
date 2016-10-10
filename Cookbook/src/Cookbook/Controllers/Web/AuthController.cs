@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Cookbook.Controllers.Web
@@ -59,7 +60,7 @@ namespace Cookbook.Controllers.Web
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Recipe");
+                return RedirectToAction(nameof(RecipeController.Index), "Recipe");
             }
             return View();
         }
@@ -90,7 +91,7 @@ namespace Cookbook.Controllers.Web
             {
                 await _signInManager.SignOutAsync();
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(RecipeController.Index), "Home");
         }
 
     }
