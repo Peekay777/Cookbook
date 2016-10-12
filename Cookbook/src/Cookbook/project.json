@@ -27,7 +27,7 @@
             "version": "1.0.0",
             "type": "platform"
         },
-        "Sendgrid": "8.0.5"
+        "SendGrid.NetCore": "1.0.0-rtm-00002"
     },
     "frameworks": {
         "netcoreapp1.0": {
