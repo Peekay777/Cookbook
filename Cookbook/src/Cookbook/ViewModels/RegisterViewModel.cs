@@ -5,7 +5,7 @@ namespace Cookbook.ViewModels
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "User Name")]
+        [Display(Name = "Email")]
         public string UserName { get; set; }
         [Required]
         [DataType(DataType.Password)]

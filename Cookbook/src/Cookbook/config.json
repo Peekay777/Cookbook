@@ -1,5 +1,9 @@
 {
     "ConnectionStrings": {
         "CookbookContextConnection": "Server=(localdb)\\MSSQLLocalDb;Database=Cookbook;Trusted_Connection=true;MultipleActiveResultSets=true;"
+    },
+    "SendGrid": {
+        "User": "azure_f9b90766daaf49b0a308f771025476be@azure.com",
+        "Key": "SkyM4st3rs77"
     }
 }

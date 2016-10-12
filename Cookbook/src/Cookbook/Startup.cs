@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cookbook.Models;
+using Cookbook.Services;
 using Cookbook.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -46,7 +47,7 @@ namespace Cookbook
             services.AddScoped<ICookbookRepo, CookbookRepo>();
             services.AddIdentity<CookbookUser, IdentityRole>(config =>
             {
-                config.User.RequireUniqueEmail = true;
+                //config.User.RequireUniqueEmail = true;
                 config.Cookies.ApplicationCookie.LoginPath = "/auth/login";
                 config.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents()
                 {
@@ -64,7 +65,13 @@ namespace Cookbook
                     }
                 };
             })
-            .AddEntityFrameworkStores<CookbookContext>();
+            .AddEntityFrameworkStores<CookbookContext>()
+            .AddDefaultTokenProviders();
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.Configure<AuthMessageSenderOptions>(options => 
+            {
+                options.SendGridKey = _config["SendGrid:Key"];
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
