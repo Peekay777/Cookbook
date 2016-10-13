@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Cookbook.Data;
 using Cookbook.Models;
-using Cookbook.ViewModels;
+using Cookbook.Models.RecipeViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

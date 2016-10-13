@@ -1,10 +1,8 @@
-﻿using System;
-using AutoMapper;
-using Cookbook.Models;
-using Cookbook.ViewModels;
+﻿using AutoMapper;
+using Cookbook.Data;
+using Cookbook.Models.RecipeViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Cookbook.Data;
 
 namespace Cookbook.Controllers.Web
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cookbook.ViewModels
+namespace Cookbook.Models.RecipeViewModels
 {
     public class RecipeViewModel
     {

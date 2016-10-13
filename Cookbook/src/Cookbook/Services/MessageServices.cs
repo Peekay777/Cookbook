@@ -3,6 +3,8 @@ using SendGrid;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System;
+using Microsoft.Extensions.Logging;
 
 namespace Cookbook.Services
 {
@@ -28,6 +30,23 @@ namespace Cookbook.Services
             // Create a Web transport for sending email.
             var transportWeb = new Web(Options.SendGridKey);
             return transportWeb.DeliverAsync(myMessage);
+        }
+    }
+
+    public class DevEmailSender : IEmailSender
+    {
+        private ILogger<DevEmailSender> _log;
+
+        public DevEmailSender(ILogger<DevEmailSender> logger)
+        {
+            _log = logger;
+        }
+
+        public Task SendEmailAsync(string email, string subject, string message)
+        {
+            _log.LogInformation(message);
+
+            return Task.FromResult(0);
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using Cookbook.Models;
-using Cookbook.ViewModels;
+using Cookbook.Models.AuthViewModels;
 using Cookbook.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
 
 namespace Cookbook.Controllers.Web

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Cookbook.ViewModels
+namespace Cookbook.Models.AuthViewModels
 {
     public class RegisterViewModel
     {

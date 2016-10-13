@@ -2,7 +2,7 @@
 using Cookbook.Controllers.Api;
 using Cookbook.Data;
 using Cookbook.Models;
-using Cookbook.ViewModels;
+using Cookbook.Models.RecipeViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

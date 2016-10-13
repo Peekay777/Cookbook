@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Cookbook.Data;
 using Cookbook.Models;
+using Cookbook.Models.RecipeViewModels;
 using Cookbook.Services;
-using Cookbook.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,19 +33,24 @@ namespace Cookbook
 
             _config = builder.Build();
         }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(_config);
+
             services.AddLogging();
+
             services.AddMvc()
                 .AddJsonOptions(config =>
                 {
                     config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
+
             services.AddDbContext<CookbookContext>(options => options.UseSqlServer(_config["ConnectionStrings:CookbookContextConnection"]));
             services.AddScoped<ICookbookRepo, CookbookRepo>();
+
             services.AddIdentity<CookbookUser, IdentityRole>(config =>
             {
                 //config.User.RequireUniqueEmail = true;
@@ -68,11 +73,21 @@ namespace Cookbook
             })
             .AddEntityFrameworkStores<CookbookContext>()
             .AddDefaultTokenProviders();
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.Configure<AuthMessageSenderOptions>(options => 
+
+
+            if (_env.IsDevelopment())
             {
-                options.SendGridKey = _config["SendGrid:Key"];
-            });
+                services.AddTransient<IEmailSender, DevEmailSender>();
+            }
+            else
+            {
+                services.AddTransient<IEmailSender, AuthMessageSender>();
+                services.Configure<AuthMessageSenderOptions>(options =>
+                {
+                    options.SendGridKey = _config["SendGrid:Key"];
+                });
+            }
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
