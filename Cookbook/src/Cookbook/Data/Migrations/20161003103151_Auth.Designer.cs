@@ -4,8 +4,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Cookbook.Models;
+using Cookbook.Data;
 
-namespace Cookbook.Migrations
+namespace Cookbook.Data.Migrations
 {
     [DbContext(typeof(CookbookContext))]
     [Migration("20161003103151_Auth")]

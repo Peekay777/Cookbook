@@ -4,8 +4,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Cookbook.Models;
+using Cookbook.Data;
 
-namespace Cookbook.Migrations
+namespace Cookbook.Data.Migrations
 {
     [DbContext(typeof(CookbookContext))]
     [Migration("20160906180237_Initial")]

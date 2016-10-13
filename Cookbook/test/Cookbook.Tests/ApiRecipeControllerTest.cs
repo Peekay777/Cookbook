@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cookbook.Controllers.Api;
+using Cookbook.Data;
 using Cookbook.Models;
 using Cookbook.ViewModels;
 using Microsoft.AspNetCore.Mvc;

@@ -1,11 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Cookbook.Models;
+using System;
 
-namespace Cookbook.Migrations
+namespace Cookbook.Data.Migrations
 {
     [DbContext(typeof(CookbookContext))]
     partial class CookbookContextModelSnapshot : ModelSnapshot

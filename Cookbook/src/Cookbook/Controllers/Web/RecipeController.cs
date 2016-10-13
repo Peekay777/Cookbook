@@ -4,6 +4,7 @@ using Cookbook.Models;
 using Cookbook.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Cookbook.Data;
 
 namespace Cookbook.Controllers.Web
 {

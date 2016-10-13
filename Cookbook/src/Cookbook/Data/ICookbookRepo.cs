@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Cookbook.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Cookbook.Models
+namespace Cookbook.Data
 {
     public interface ICookbookRepo
     {

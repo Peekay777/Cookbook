@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Cookbook.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 
-namespace Cookbook.Models
+namespace Cookbook.Data
 {
     public class CookbookRepo : ICookbookRepo
     {
