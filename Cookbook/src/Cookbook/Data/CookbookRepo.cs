@@ -29,23 +29,83 @@ namespace Cookbook.Data
         /// <param name="recipe"></param>
         public bool EditRecipe(int id, Recipe newRecipe, string userName)
         {
-            Recipe recipe = GetRecipe(id);
+            Recipe oldRecipe = GetRecipe(id);
 
-            if (recipe == null)
+            if (oldRecipe != null)
             {
-                return false;
-            }
-            else
-            {
-                recipe.Name = newRecipe.Name;
-                recipe.Serves = newRecipe.Serves;
-                recipe.UserName = userName;
-                recipe.Ingredients = newRecipe.Ingredients;
-                recipe.Method = newRecipe.Method;
+                oldRecipe.Name = newRecipe.Name;
+                oldRecipe.Serves = newRecipe.Serves;
+                oldRecipe.UserName = userName;
 
-                _context.Entry(recipe).State = EntityState.Modified;
+                // Delete child collections
+                foreach (var existingChild in oldRecipe.Ingredients.ToList())
+                {
+                    if (!newRecipe.Ingredients.Any(c => c.Id == existingChild.Id))
+                        _context.Ingredients.Remove(existingChild);
+                }
+
+                foreach (var existingChild in oldRecipe.Method.ToList())
+                {
+                    if (!newRecipe.Method.Any(c => c.Id == existingChild.Id))
+                        _context.Method.Remove(existingChild);
+                }
+
+
+                // Update and Insert Children
+                List<Ingredient> ingredients = new List<Ingredient>();
+                foreach (var childModel in newRecipe.Ingredients)
+                {
+                    var existingChild = oldRecipe.Ingredients
+                        .Where(c => c.Id == childModel.Id)
+                        .SingleOrDefault();
+
+                    if (existingChild != null)
+                        // Update child
+                        ingredients.Add(childModel);
+                    else
+                    {
+                        // Insert child
+                        var newChild = new Ingredient
+                        {
+                            Order = childModel.Order,
+                            Description = childModel.Description,
+                            RecipeId = childModel.RecipeId
+                        };
+                        ingredients.Add(newChild);
+                    }
+                }
+                oldRecipe.Ingredients = ingredients;
+
+                List<Instruction> instructions = new List<Instruction>();
+                foreach (var childModel in newRecipe.Method)
+                {
+                    var existingChild = oldRecipe.Method
+                        .Where(c => c.Id == childModel.Id)
+                        .SingleOrDefault();
+
+                    if (existingChild != null)
+                        // Update child
+                        instructions.Add(childModel);
+                    else
+                    {
+                        // Insert child
+                        var newChild = new Instruction
+                        {
+                            Order = childModel.Order,
+                            Task = childModel.Task,
+                            RecipeId = childModel.RecipeId
+                        };
+                        instructions.Add(newChild);
+                    }
+                }
+                oldRecipe.Method = instructions;
+
+
+                _context.Entry(oldRecipe).State = EntityState.Modified;
                 return true;
             }
+
+            return false;
         }
         /// <summary>
         /// Delete Recipe
@@ -77,8 +137,8 @@ namespace Cookbook.Data
         public Recipe GetRecipe(int id)
         {
             return _context.Recipes
-              .Include(r => r.Ingredients)
-              .Include(r => r.Method)
+              .Include(i => i.Ingredients)
+              .Include(m => m.Method)
               .Where(r => r.Id == id)
               .DefaultIfEmpty(null)
               .FirstOrDefault();
@@ -110,6 +170,6 @@ namespace Cookbook.Data
         {
             return (await _context.SaveChangesAsync()) > 0;
         }
-        
+
     }
 }

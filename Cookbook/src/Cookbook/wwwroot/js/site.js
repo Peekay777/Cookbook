@@ -46,7 +46,10 @@
         var arrayText = text.split('\n').filter(function (e) { return e });
 
         for (var i = 0; i < arrayText.length; i++) {
-            newArray.push({ [field]: arrayText[i] });
+            newArray.push({
+                order: i,
+                [field]: arrayText[i]
+            });
         }
 
         return newArray;

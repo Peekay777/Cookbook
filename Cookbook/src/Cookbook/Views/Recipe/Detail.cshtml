@@ -12,7 +12,7 @@
     <div>
         <h4>Ingredients</h4>
         <ul>
-            @foreach (var item in Model.Ingredients)
+            @foreach (var item in Model.Ingredients.OrderBy(i => i.Order))
             {
                 <li>@item.Description</li>
             }
@@ -21,7 +21,7 @@
     <div>
         <h4>Method</h4>
         <ol>
-            @foreach (var item in Model.Method)
+            @foreach (var item in Model.Method.OrderBy(m => m.Order))
             {
                 <li>@item.Task</li>
             }

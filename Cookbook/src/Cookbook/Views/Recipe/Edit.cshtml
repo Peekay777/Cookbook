@@ -28,7 +28,7 @@
                 <label asp-for="Ingredients"></label>
                 @{
                     var ingredientTextArea = "";
-                    foreach (var item in Model.Ingredients)
+                    foreach (var item in Model.Ingredients.OrderBy(i => i.Order))
                     {
                         ingredientTextArea += (item.Description + "\n");
                     }
@@ -40,7 +40,7 @@
                 <label asp-for="Method"></label>
                 @{
                     var methodTextArea = "";
-                    foreach (var item in Model.Method)
+                    foreach (var item in Model.Method.OrderBy(m => m.Order))
                     {
                         methodTextArea += (item.Task + "\n");
                     }

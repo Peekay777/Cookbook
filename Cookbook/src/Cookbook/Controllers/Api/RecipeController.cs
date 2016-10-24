@@ -135,6 +135,10 @@ namespace Cookbook.Controllers.Api
             return BadRequest("Failed to delete the recipe");
         }
 
+        /// <summary>
+        /// Get the current logged in user
+        /// </summary>
+        /// <returns></returns>
         public virtual string GetUserIdentityName()
         {
             return User.Identity.Name;

@@ -3,14 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Cookbook.Models;
 using Cookbook.Data;
 
-namespace Cookbook.Data.Migrations
+namespace Cookbook.Migrations
 {
     [DbContext(typeof(CookbookContext))]
-    [Migration("20161003103151_Auth")]
-    partial class Auth
+    [Migration("20161024115945_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,7 +73,9 @@ namespace Cookbook.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("RecipeId");
+                    b.Property<int>("Order");
+
+                    b.Property<int>("RecipeId");
 
                     b.HasKey("Id");
 
@@ -88,7 +89,9 @@ namespace Cookbook.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("RecipeId");
+                    b.Property<int>("Order");
+
+                    b.Property<int>("RecipeId");
 
                     b.Property<string>("Task");
 
@@ -224,16 +227,18 @@ namespace Cookbook.Data.Migrations
 
             modelBuilder.Entity("Cookbook.Models.Ingredient", b =>
                 {
-                    b.HasOne("Cookbook.Models.Recipe")
+                    b.HasOne("Cookbook.Models.Recipe", "Recipe")
                         .WithMany("Ingredients")
-                        .HasForeignKey("RecipeId");
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Cookbook.Models.Instruction", b =>
                 {
-                    b.HasOne("Cookbook.Models.Recipe")
+                    b.HasOne("Cookbook.Models.Recipe", "Recipe")
                         .WithMany("Method")
-                        .HasForeignKey("RecipeId");
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
