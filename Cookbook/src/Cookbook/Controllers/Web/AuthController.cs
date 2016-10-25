@@ -1,6 +1,6 @@
 ﻿using Cookbook.Models;
 using Cookbook.Models.AuthViewModels;
-using Cookbook.Services;
+using Cookbook.Services.EmailSender;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +14,13 @@ namespace Cookbook.Controllers.Web
         private SignInManager<CookbookUser> _signInManager;
         private UserManager<CookbookUser> _userManager;
         private ILogger<AuthController> _log;
-        private IEmailSender _emailSender;
+        private IMessageSender _emailSender;
 
         public AuthController(
             SignInManager<CookbookUser> signInManager, 
             UserManager<CookbookUser> userManager, 
             ILogger<AuthController> logger,
-            IEmailSender emailSender)
+            IMessageSender emailSender)
         {
             _signInManager = signInManager;
             _userManager = userManager;

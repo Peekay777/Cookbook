@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace Cookbook.Services
+namespace Cookbook.Services.EmailSender
 {
-    public interface IEmailSender
+    public interface IMessageSender
     {
         Task SendEmailAsync(string email, string subject, string message);
     }

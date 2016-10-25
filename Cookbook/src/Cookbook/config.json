@@ -1,5 +1,11 @@
 {
     "ConnectionStrings": {
         "CookbookContextConnection": "Server=(localdb)\\MSSQLLocalDb;Database=Cookbook;Trusted_Connection=true;MultipleActiveResultSets=true;"
+    },
+    "MessageSender": {
+        "SendGrid": {
+            "Address": "noreply@cookbook.com",
+            "DisplayName": "Cookbook Account"
+        }
     }
 }

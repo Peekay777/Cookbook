@@ -2,7 +2,7 @@
 using Cookbook.Data;
 using Cookbook.Models;
 using Cookbook.Models.RecipeViewModels;
-using Cookbook.Services;
+using Cookbook.Services.EmailSender;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -77,17 +77,18 @@ namespace Cookbook
 
             if (_env.IsDevelopment())
             {
-                services.AddTransient<IEmailSender, DevEmailSender>();
+                services.AddTransient<IMessageSender, DevMessageSender>();
             }
             else
             {
-                services.AddTransient<IEmailSender, AuthMessageSender>();
+                services.AddTransient<IMessageSender, AuthMessageSender>();
                 services.Configure<AuthMessageSenderOptions>(options =>
                 {
-                    options.SendGridKey = _config["SendGrid:Key"];
+                    options.SendGridKey = _config["MessageSender:SendGrid:Key"];
+                    options.Address = _config["MessageSender:SendGrid:Address"];
+                    options.DisplayName = _config["MessageSender:SendGrid:DisplayName"];
                 });
             }
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
