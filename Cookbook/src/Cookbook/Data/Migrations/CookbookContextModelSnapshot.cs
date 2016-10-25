@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Cookbook.Data;
 
-namespace Cookbook.Migrations
+namespace Cookbook.Data.Migrations
 {
     [DbContext(typeof(CookbookContext))]
     partial class CookbookContextModelSnapshot : ModelSnapshot

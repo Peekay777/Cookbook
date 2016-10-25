@@ -52,18 +52,27 @@ namespace Cookbook.Controllers.Web
                     var callbackUrl = Url.Action("ConfirmEmail", "Auth", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     await _emailSender.SendEmailAsync(
                         user.Email,
-                        "Please confirm your email address", 
+                        "Confirm your email address for Cookbook", 
                         $"Hi,\nThank you for registering for a Cookbook account\nPlease confirm your email\n<a href='{callbackUrl}'>Confirm Email</a>");
                     //await _signInManager.SignInAsync(user, isPersistent: true);
 
                     _log.LogInformation(3, "User created a new account with password.");
-                    return RedirectToAction(nameof(RecipeController.Index), "Home");
+                    return RedirectToAction(nameof(AuthController.RegisterConfirmEmail), "Auth", user.Email);
                 }
 
                 AddErrors(result);
             }
 
             return View(model);
+        }
+
+        public IActionResult RegisterConfirmEmail()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Recipe");
+            }
+            return View();
         }
 
         public IActionResult Login()
@@ -87,7 +96,7 @@ namespace Cookbook.Controllers.Web
                 {
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
-                        ModelState.AddModelError(string.Empty, "You must have a confirmed email to log in.");
+                        ModelState.AddModelError(string.Empty, "You must have confirmed your email address to log in.");
                         return View(model);
                     }
                 }
@@ -99,7 +108,7 @@ namespace Cookbook.Controllers.Web
                 }
             }
 
-            ModelState.AddModelError("", "Login Failed");
+            ModelState.AddModelError(string.Empty, "Login Failed");
 
             return View();
         }
