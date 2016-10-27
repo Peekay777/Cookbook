@@ -44,7 +44,7 @@ namespace Cookbook.Controllers.Web
         {
             if (ModelState.IsValid)
             {
-                var user = new CookbookUser { UserName = model.UserName, Email = model.UserName };
+                var user = new CookbookUser { UserName = model.UserName, Email = model.Email };
                 IdentityResult result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -57,7 +57,7 @@ namespace Cookbook.Controllers.Web
                     //await _signInManager.SignInAsync(user, isPersistent: true);
 
                     _log.LogInformation(3, "User created a new account with password.");
-                    return RedirectToAction(nameof(AuthController.RegisterConfirmEmail), "Auth", user.Email);
+                    return RedirectToAction(nameof(AuthController.RegisterConfirmEmail), "Auth");
                 }
 
                 AddErrors(result);
@@ -91,7 +91,7 @@ namespace Cookbook.Controllers.Web
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(model.UserName);
+                var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null)
                 {
                     if (!await _userManager.IsEmailConfirmedAsync(user))
@@ -99,12 +99,12 @@ namespace Cookbook.Controllers.Web
                         ModelState.AddModelError(string.Empty, "You must have confirmed your email address to log in.");
                         return View(model);
                     }
-                }
 
-                var signinResult = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, true, false);
-                if (signinResult.Succeeded)
-                {
-                    return RedirectToAction(nameof(RecipeController.Index), "Recipe");
+                    var signinResult = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, true, false);
+                    if (signinResult.Succeeded)
+                    {
+                        return RedirectToAction(nameof(RecipeController.Index), "Recipe");
+                    }
                 }
             }
 

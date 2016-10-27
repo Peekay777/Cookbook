@@ -5,12 +5,15 @@
 }
 
 <div class="col-sm-6 col-sm-offset-3">
-    <h2>@Model.Name</h2>
-    <div>
-        <span>Serves: @Model.Serves</span>
+    <h1>@Model.Name</h1>
+    <div class="small">
+        <p>Created by @Model.UserName</p>
     </div>
     <div>
-        <h4>Ingredients</h4>
+        <p>Serves: @Model.Serves</p>
+    </div>
+    <div>
+        <h3>Ingredients</h3>
         <ul>
             @foreach (var item in Model.Ingredients.OrderBy(i => i.Order))
             {
@@ -19,7 +22,7 @@
         </ul>
     </div>
     <div>
-        <h4>Method</h4>
+        <h3>Method</h3>
         <ol>
             @foreach (var item in Model.Method.OrderBy(m => m.Order))
             {

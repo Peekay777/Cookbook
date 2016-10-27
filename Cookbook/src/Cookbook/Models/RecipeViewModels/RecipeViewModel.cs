@@ -14,6 +14,8 @@ namespace Cookbook.Models.RecipeViewModels
         [Range(1.0,30.0)]
         public int Serves { get; set; }
 
+        public string UserName { get; set; }
+
         [Required]
         public ICollection<IngredientViewModel> Ingredients { get; set; }
         
