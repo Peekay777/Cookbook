@@ -23,17 +23,17 @@ namespace Cookbook.Controllers.Web
             return View(model);
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         public IActionResult Detail(int id)
         {
             var model = _repo.GetRecipe(id);
             var vm = Mapper.Map<RecipeViewModel>(model);
 
             return View(vm);
-        }
-
-        public IActionResult Create()
-        {
-            return View();
         }
 
         public IActionResult Edit(int id)

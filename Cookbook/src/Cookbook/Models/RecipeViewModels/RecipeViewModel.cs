@@ -21,5 +21,8 @@ namespace Cookbook.Models.RecipeViewModels
         
         [Required]
         public ICollection<InstructionViewModel> Method { get; set; }
+
+        [Display(Name = "Private")]
+        public bool IsPrivate { get; set; }
     }
 }

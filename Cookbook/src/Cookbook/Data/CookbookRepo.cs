@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace Cookbook.Data
 {
@@ -13,6 +14,14 @@ namespace Cookbook.Data
         public CookbookRepo(CookbookContext context)
         {
             _context = context;
+        }
+        /// <summary>
+        /// Save database changes
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync()) > 0;
         }
         /// <summary>
         /// Add a recipe
@@ -35,6 +44,7 @@ namespace Cookbook.Data
             {
                 oldRecipe.Name = newRecipe.Name;
                 oldRecipe.Serves = newRecipe.Serves;
+                oldRecipe.IsPrivate = newRecipe.IsPrivate;
                 oldRecipe.UserName = userName;
 
                 // Delete child collections
@@ -104,7 +114,6 @@ namespace Cookbook.Data
                 _context.Entry(oldRecipe).State = EntityState.Modified;
                 return true;
             }
-
             return false;
         }
         /// <summary>
@@ -162,14 +171,7 @@ namespace Cookbook.Data
                 .Where(r => r.UserName == userName)
                 .ToList();
         }
-        /// <summary>
-        /// Save database changes
-        /// </summary>
-        /// <returns></returns>
-        public async Task<bool> SaveChangesAsync()
-        {
-            return (await _context.SaveChangesAsync()) > 0;
-        }
+        
 
     }
 }

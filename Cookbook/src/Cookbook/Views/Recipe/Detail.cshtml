@@ -30,6 +30,12 @@
             }
         </ol>
     </div>
+    @if (Model.IsPrivate)
+    {
+        <div>
+            <p class="text-warning">Recipe is Private</p>
+        </div>
+    }
     <div class="well">
         <input type="hidden" value="@Model.Id" name="id" />
         <a class="btn btn-success" asp-controller="recipe" asp-action="edit" asp-route-id="@Model.Id">Modify</a>

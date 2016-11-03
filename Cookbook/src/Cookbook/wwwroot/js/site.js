@@ -37,13 +37,13 @@
 
             var id = $('input[name=id]').val();
             deleteRecipe(id);
-        })
+        });
     });
 
     // Converts TextArea input into arrays
     function convertTextarea(text, field) {
         var newArray = [];
-        var arrayText = text.split('\n').filter(function (e) { return e });
+        var arrayText = text.split('\n').filter(function (e) { return e; });
 
         for (var i = 0; i < arrayText.length; i++) {
             newArray.push({
@@ -59,12 +59,14 @@
     function saveRecipe() {
         var name = $('#Name').val();
         var serves = $('#Serves').val();
+        var isPrivate = $('#IsPrivate').is(':checked');
         var ingredients = convertTextarea($('#Ingredients').val(), 'description');
         var method = convertTextarea($('#Method').val(), 'task');
 
         var request = {
             'name': name,
             'serves': serves,
+            'isPrivate': isPrivate,
             'ingredients': ingredients,
             'method': method
         };
@@ -76,7 +78,7 @@
             url: '/api/recipe',
             data: JSON.stringify(request),
             dataType: 'json',
-            type: 'POST',
+            type: 'POST'
         })
         .done(function (recipe) {
             console.debug(recipe);
@@ -91,6 +93,7 @@
     function updateRecipe(id) {
         var name = $('#Name').val();
         var serves = $('#Serves').val();
+        var isPrivate = $('#IsPrivate').is(':checked');
         var ingredients = convertTextarea($('#Ingredients').val(), 'description');
         var method = convertTextarea($('#Method').val(), 'task');
 
@@ -98,6 +101,7 @@
             'id': id,
             'name': name,
             'serves': serves,
+            'isPrivate': isPrivate,
             'ingredients': ingredients,
             'method': method
         };
@@ -109,7 +113,7 @@
             url: '/api/recipe/' + id,
             data: JSON.stringify(request),
             dataType: 'json',
-            type: 'PUT',
+            type: 'PUT'
         })
         .done(function () {
             window.location.href = '/recipe/detail/' + id;
@@ -126,7 +130,7 @@
         var recipe = $.ajax({
             contentType: "application/json; charset=utf-8",
             url: url,
-            type: 'DELETE',
+            type: 'DELETE'
         })
         .done(function (recipe) {
             console.debug(recipe);

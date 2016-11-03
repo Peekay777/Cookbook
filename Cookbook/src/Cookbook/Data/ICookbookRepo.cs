@@ -6,6 +6,8 @@ namespace Cookbook.Data
 {
     public interface ICookbookRepo
     {
+        Task<bool> SaveChangesAsync();
+
         IEnumerable<Recipe> GetAll();
         IEnumerable<Recipe> GetAllByUser(string name);
         Recipe GetRecipe(int id);
@@ -15,8 +17,5 @@ namespace Cookbook.Data
         bool EditRecipe(int id, Recipe recipe, string userName);
 
         bool DeleteRecipe(int id);
-
-        Task<bool> SaveChangesAsync();
-        
     }
 }

@@ -49,6 +49,10 @@
                 <span asp-validation-for="Method" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="IsPrivate"></label>
+                <input asp-for="IsPrivate" type="checkbox" />
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Update recipe" class="btn btn-success" data-transmit="update" />
                 <a asp-controller="recipe" asp-action="detail" asp-route-id="@Model.Id" class="btn btn-default pull-right">Cancel</a>
             </div>

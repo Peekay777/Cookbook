@@ -9,10 +9,12 @@ namespace Cookbook.Models
             Ingredients = new List<Ingredient>();
             Method = new List<Instruction>();
         }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public int Serves { get; set; }
         public string UserName { get; set; }
+        public bool IsPrivate { get; set; }
 
         public ICollection<Ingredient> Ingredients { get; set; }
         public ICollection<Instruction> Method { get; set; }
