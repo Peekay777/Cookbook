@@ -7,6 +7,11 @@ namespace Cookbook.Models
 {
     public class CookbookUser : IdentityUser
     {
-        
+        public ICollection<Friend> Friends { get; set; }
+
+        public CookbookUser()
+        {
+            Friends = new List<Friend>();
+        }
     }
 }

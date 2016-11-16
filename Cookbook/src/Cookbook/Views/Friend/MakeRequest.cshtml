@@ -1,0 +1,26 @@
+﻿@model Cookbook.Models.FriendViewModels.FindViewModel
+@{
+    ViewBag.SiteName = "Cookbook";
+    ViewBag.Title = "Friend Request";
+}
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<div class="col-sm-6 col-sm-offset-3">
+    <h2>Request a Friend</h2>
+    <form asp-controller="Friend" asp-action="MakeRequest" method="post" class="form-horizontal well">
+        <fieldset>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Make a Request" class="btn btn-success" />
+            </div>
+        </fieldset>
+    </form>
+</div>

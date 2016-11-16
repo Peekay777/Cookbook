@@ -244,3 +244,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /Cookbook/src/Cookbook/wwwroot/lib/*
+/Cookbook/SQLQuery1.sql

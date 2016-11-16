@@ -4,12 +4,6 @@ namespace Cookbook.Models
 {
     public class Recipe
     {
-        public Recipe()
-        {
-            Ingredients = new List<Ingredient>();
-            Method = new List<Instruction>();
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public int Serves { get; set; }
@@ -18,5 +12,11 @@ namespace Cookbook.Models
 
         public ICollection<Ingredient> Ingredients { get; set; }
         public ICollection<Instruction> Method { get; set; }
+
+        public Recipe()
+        {
+            Ingredients = new List<Ingredient>();
+            Method = new List<Instruction>();
+        }
     }
 }

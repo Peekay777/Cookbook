@@ -1,0 +1,59 @@
+﻿@model Cookbook.Models.FriendViewModels.RequestViewModel
+@{
+    ViewBag.SiteName = "Cookbook";
+    ViewBag.Title = "Friend Request";
+}
+
+<div class="col-sm-6 col-sm-offset-3">
+    <h2>Friend Requests</h2>
+    <div>
+        <h4>Pending Your Approval</h4>
+        <div>
+            <ul class="list-group">
+                @{
+                    if (Model.PendingRequests.Count == 0)
+                    {
+                        <li class="list-group-item">No Pending Replies</li>
+                    }
+                    else
+                    {
+                        foreach (var request in Model.PendingRequests)
+                        {
+                            <li class="list-group-item buttonsGroup container-fluid">
+                                <span class="col-sm-6">@request.UserName</span>
+                                <span class="col-sm-offset-2 col-sm-2">
+                                    <a class="btn btn-xs btn-success" asp-controller="Friend" asp-action="ChangeRequest" asp-route-id="@request.RequestId" asp-route-status="3">Confirm</a>
+                                </span>
+                                <span class="col-sm-2">
+                                    <a class="btn btn-xs btn-warning" asp-controller="Friend" asp-action="ChangeRequest" asp-route-id="@request.RequestId" asp-route-status="4">Decline</a>
+                                </span>
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    <div>
+        <h4>Unconfirmed Requests</h4>
+        <div>
+            <ul class="list-group">
+                @{
+                    if (Model.SentRequests.Count == 0)
+                    {
+                        <li class="list-group-item">No Pending Sent Requests</li>
+                    }
+                    else
+                    {
+                        foreach (var request in Model.SentRequests)
+                        {
+                            <li class="list-group-item buttonsGroup container-fluid">
+                                <span class="col-sm-6">@request.UserName</span>
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>
