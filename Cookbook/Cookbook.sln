@@ -1,20 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8DD0C73D-4E27-4021-A2FC-2F3F15F32641}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C90C1B5E-A5E5-47E8-A48E-3D47BF3905A2}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cookbook", "src\Cookbook\Cookbook.xproj", "{8D021D39-206A-4578-9188-1E2996B51863}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C41F4253-7BBA-4083-827F-14B14AF14D63}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Cookbook.Tests", "test\Cookbook.Tests\Cookbook.Tests.xproj", "{F7DB7C1F-309D-4800-93E2-3321CE3174BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cookbook", "src\Cookbook\Cookbook.csproj", "{8D021D39-206A-4578-9188-1E2996B51863}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cookbook.Tests", "test\Cookbook.Tests\Cookbook.Tests.csproj", "{F7DB7C1F-309D-4800-93E2-3321CE3174BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
